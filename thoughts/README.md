@@ -2,4 +2,4 @@
 
 The blog is located at [thoughts.abhishekbalam.xyz](https://thoughts.abhishekbalam.xyz/).
 
-![Main]("thts.png")
+![Main](thts.png)

@@ -2,4 +2,4 @@
 
 The blog is located at [code.abhishekbalam.xyz](https://code.abhishekbalam.xyz/).
 
-![Main]("code.png")
+![Code](code.png)
