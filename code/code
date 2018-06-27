@@ -10,7 +10,7 @@ help_msg(){
 		echo ""
 	fi
 	
-	echo -e "\e[36m\e[1m__Coding Site Manager__\e[0m"
+	echo -e "\e[36m\e[1m__Coding Blog Manager__\e[0m"
 	echo ""
 	echo "A utility to help manage and post on my coding blog and push to Github Pages."
 
