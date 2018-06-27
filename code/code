@@ -1,0 +1,180 @@
+#!/bin/bash
+
+help_msg(){
+	
+	echo ""
+	
+	if [ "${1+xxx}" ];
+		then
+		echo -e $1
+		echo ""
+	fi
+	
+	echo -e "\e[36m\e[1m__Coding Site Manager__\e[0m"
+	echo ""
+	echo "A utility to help manage and post on my coding blog and push to Github Pages."
+
+	echo ""
+	echo -e "\e[38;5;222mUsage Instructions:\e[0m"
+	
+	echo ""
+	echo -e " \e[92mpost\e[0m" 
+	echo "		Opens Sublime Text with new problem post file."
+	
+	echo ""
+	echo -e " \e[92malgo\e[0m" 
+	echo "		Opens Sublime Text with new algorithm post file."
+	
+	
+	echo -e " \e[92mfiles\e[0m" 
+	echo "		Opens Nautilus with the Jekyll project directory."
+	
+	echo -e " \e[92mopen\e[0m" 
+	echo "		Opens Sublime Text with the Jekyll project directory."
+	
+	echo -e " \e[92mpush\e[0m" 
+	echo -e "		Auto \e[31madd+commit+push\e[0m to Github Pages repository."
+	
+	echo -e " \e[92mpublish\e[0m" 
+	echo -e "		Build/Complile + publish via Surge ."
+
+	echo -e " \e[92mdemo\e[0m" 
+	echo -e "		Run Jekyll site locally at http://127.0.0.1:4000 . "
+
+	echo -e " \e[92mview\e[0m" 
+	echo -e "		View the blog site. "
+
+	echo -e " \e[92mmeta\e[0m" 
+	echo -e "		Edit this script. "
+
+	
+	echo -e "\e[38;5;222mOptional args:\e[0m"
+	echo ""
+	echo -e " \e[92m-h\e[0m"
+	echo "		Help and documentation."
+	echo ""
+	
+}
+
+help(){
+
+	help_msg
+	echo ""
+	echo -e "\e[1mHelp Text\e[0m"
+	echo -e "Lorem ipsum dolor sit amet, consectetur adipisicing elit.\nQuia libero voluptatum veniam laudantium corporis, illo enim"
+	echo -e "\nipsa ut voluptatem similique possimus delectus vitae quisquam.\nDistinctio molestias dolor,"
+	echo -e "\nsuscipit doloremque ipsa."
+	exit 1;
+
+}
+
+if [[ $# -eq 0 ]] ; then
+	help_msg
+	exit 1;
+fi
+
+problem(){
+	cd ~/Web/code
+	wait
+	subl . 
+	wait 
+	title=$(pwd)/_posts/$(date +%Y-%m-%d)-problem.md
+	touch $title
+	cat > $title <<- EOM
+	---
+	layout: post
+	title: "title"
+	subtitle: "" 
+
+	---
+
+	# Note
+
+	# Java
+
+	# Python
+	EOM
+
+	subl $title -a
+}
+
+algo(){
+	cd ~/Web/code
+	wait
+	subl . 
+	wait 
+	title=$(pwd)/_algorithms/$(date +%Y-%m-%d)-algo.md
+	touch $title
+	cat > $title <<- EOM
+	---
+	layout: note
+	title: "title" 
+
+	---
+
+	# Introduction
+
+	# How It Works
+	
+	# Code
+
+	## Java
+
+	## Python
+	EOM
+
+	subl $title -a
+}
+
+push(){
+
+	echo  -e "\e[38;5;222mPushing site to GitHub Pages..\e[0m"
+	echo ""
+	cd ~/Web/code
+	git add .
+	git commit -m "$(date)"
+	git push origin master
+}
+
+
+compile(){
+	echo  -e "\e[38;5;222mBuilding Jekyll site.\e[0m"
+	echo ""
+	cd ~/Web/code
+	jekyll build
+	surge _site -d code.abhishekbalam.xyz
+}
+
+serve(){
+
+	echo  -e "\e[38;5;222mRunning Jekyll site locally...\e[0m"
+	echo ""
+	echo  -e "\e[38;5;222mOpen browser at http://127.0.0.1:4000 to see the site.\e[0m"
+	echo ""
+	cd ~/Web/code
+	jekyll serve --watch
+	# xdg-open http://127.0.0.1:4000 &
+
+}
+
+
+while [ $# -gt 0 ]
+do
+    case "$1" in
+       	open)  subl ~/Web/code;;
+		files) nautilus ~/Web/code;;
+		problem) problem;;
+		algo) algo;;
+		push) push;;
+		publish) compile;;
+		demo) serve;;
+		view) xdg-open https://code.abhishekbalam.xyz& ;;
+		meta) subl ~/bin/code ;;
+		-h)  help;;
+		*)  
+			help_msg "\e[31m\e[1mWrong arguments!\e[0m"
+			exit 1;
+			break;
+ 	esac
+    shift
+done
